@@ -1,12 +1,9 @@
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveTask;
 
 public class Parallel_Manager extends RecursiveTask<CloudData>{
 
-	private static final int THRESHOLD = 300;
+	private static final int THRESHOLD = 5000;
 	private int start;
 	private int end;
 	private CloudData cd;
@@ -16,11 +13,22 @@ public class Parallel_Manager extends RecursiveTask<CloudData>{
 		this.end = end;
 		this.cd = cd;
 	}
+	
+	public CloudData getCloudData() {
+		return cd;
+	}
 
 	@Override
 	protected CloudData compute() {
 		if (end - start > THRESHOLD) {
-			ForkJoinTask.invokeAll(createSubtasks());
+			int middle = start + (end - start - ((end - start - 1) % 2) - 1)/2;
+			
+			Parallel_Manager firstTask = new Parallel_Manager(start, middle, cd);
+	        Parallel_Manager secondTask = new Parallel_Manager((middle+1), end, cd);
+
+	        ForkJoinTask.invokeAll(firstTask, secondTask);
+	        
+	        return firstTask.cd;
 		}
 		else {
 			cd.calculatePrevailingWind(start, end);
@@ -28,14 +36,5 @@ public class Parallel_Manager extends RecursiveTask<CloudData>{
 			return cd;
 		}
 	}
-	
-	private Collection<Parallel_Manager> createSubtasks() {
-        List<Parallel_Manager> dividedTasks = new ArrayList<>();
-        int middle = start + (end - start - ((end - start - 1) % 2) - 1)/2;
-        
-        dividedTasks.add(new Parallel_Manager(start, middle, cd));
-        dividedTasks.add(new Parallel_Manager((middle+1), end, cd));
-        return dividedTasks;
-    }
 
 }

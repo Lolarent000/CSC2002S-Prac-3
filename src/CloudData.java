@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -10,10 +12,25 @@ public class CloudData {
 	float [][][] convection; // vertical air movement strength, that evolves over time
 	int [][][] classification; // cloud type per grid point, evolving over time
 	int dimx, dimy, dimt; // data dimensions
+	List <Vector> localAverages = new ArrayList<Vector>();
 
 	// overall number of elements in the timeline grids
 	int dim(){
 		return dimt*dimx*dimy;
+	}
+	
+	// Average local vectors
+	Vector combineLocalAverages() {
+		double xSum = 0;
+		double ySum = 0;
+		for(int i = 0; i < localAverages.size(); i++) {
+			xSum += (localAverages.get(i).x * (localAverages.get(i).endId - localAverages.get(i).startId + 1));
+			ySum += (localAverages.get(i).y * (localAverages.get(i).endId - localAverages.get(i).startId + 1));
+			System.out.printf("xsum: %.2f, x: %.2f\n", xSum, localAverages.get(i).x);
+		}
+		xSum /= dim();
+		ySum /= dim();
+		return new Vector((float)xSum, (float)ySum);
 	}
 	
 	// convert linear position into 3D location in simulation grid
@@ -56,7 +73,7 @@ public class CloudData {
 	}
 	
 	// calculate Prevailing wind for elements iStart to iEnd
-	Vector calculatePrevailingWind(int iStart, int iEnd) {
+	void calculatePrevailingWind(int iStart, int iEnd) {
 		float xSum = 0;
 		float ySum = 0;
 		for(int i = iStart; i < iEnd+1; i++) {
@@ -68,9 +85,9 @@ public class CloudData {
 			xSum += advection[t][x][y].get("x");
 			ySum += advection[t][x][y].get("y");
 		}
-		xSum = xSum/dim();
-		ySum = ySum/dim();
-		return new Vector(xSum, ySum);
+		xSum = xSum/(iEnd-iStart+1);
+		ySum = ySum/(iEnd-iStart+1);
+		localAverages.add(new Vector(xSum, ySum, iStart, iEnd));
 	}
 	
 	// Classify clouds based on type

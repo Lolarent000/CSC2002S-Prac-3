@@ -2,6 +2,8 @@
 public class Vector {
 	float x;
 	float y;
+	int startId;
+	int endId;
 	
 	public Vector() {
 		x = 0;
@@ -11,6 +13,13 @@ public class Vector {
 	public Vector(float xIn, float yIn) {
 		x = xIn;
 		y = yIn;
+	}
+	
+	public Vector(float xIn, float yIn, int startIdIn, int endIdIn) {
+		x = xIn;
+		y = yIn;
+		startId = startIdIn;
+		endId = endIdIn;
 	}
 	
 	public float len() {
