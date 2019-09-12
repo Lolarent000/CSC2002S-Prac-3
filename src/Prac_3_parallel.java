@@ -1,8 +1,9 @@
 import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.RecursiveAction;
 
-public class Prac_3_parallel extends RecursiveAction{
+public class Prac_3_parallel{
 
+	int [] workload = new int[2];
+	CloudData cd;
 	
 	public static void main(String[] args) {
 		ForkJoinPool commonPool = ForkJoinPool.commonPool();
@@ -16,13 +17,5 @@ public class Prac_3_parallel extends RecursiveAction{
 		cd.classifyClouds();
 		cd.printClassification();
 		cd.writeData(args[1], v);
-	}
-	
-	
-
-	@Override
-	protected void compute() {
-		// TODO Auto-generated method stub
-		
 	}
 }

@@ -81,7 +81,7 @@ public class CloudData {
 			int t = ind[0];
 			int x = ind[1];
 			int y = ind[2];
-			int [] bounds = calculateBounds(x, y);
+			int [] bounds = calculateBounds(x, y); //0 is xstart, 1 is xend,2 is ystart, 3 is yend
 			float xSum = 0;
 			float ySum = 0;
 			for(int a = bounds[0]; a < bounds[1]+1; a++) {
@@ -115,7 +115,7 @@ public class CloudData {
 				int t = ind[0];
 				int x = ind[1];
 				int y = ind[2];
-				int [] bounds = calculateBounds(x, y);
+				int [] bounds = calculateBounds(x, y);  //0 is xstart, 1 is xend,2 is ystart, 3 is yend
 				float xSum = 0;
 				float ySum = 0;
 				for(int a = bounds[0]; a < bounds[1]+1; a++) {
