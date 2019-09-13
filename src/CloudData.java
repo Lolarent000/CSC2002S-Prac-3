@@ -23,10 +23,11 @@ public class CloudData {
 	Vector combineLocalAverages() {
 		double xSum = 0;
 		double ySum = 0;
-		for(int i = 0; i < localAverages.size(); i++) {
-			xSum += (localAverages.get(i).x * (localAverages.get(i).endId - localAverages.get(i).startId + 1));
-			ySum += (localAverages.get(i).y * (localAverages.get(i).endId - localAverages.get(i).startId + 1));
-			System.out.printf("xsum: %.2f, x: %.2f\n", xSum, localAverages.get(i).x);
+		for(Vector v : localAverages) {
+			if(v != null) {
+				xSum += (v.x * (v.endId - v.startId + 1));
+				ySum += (v.y * (v.endId - v.startId + 1));
+			}
 		}
 		xSum /= dim();
 		ySum /= dim();
@@ -168,6 +169,7 @@ public class CloudData {
 					}
 				}
 			}
+			System.out.println("");
 		}
 	
 	//calculate bounds for cloud type {returns in format xStart, xEnd, yStart, yEnd}

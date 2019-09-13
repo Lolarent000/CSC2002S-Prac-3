@@ -7,9 +7,11 @@ public class Prac_3_parallel{
 	
 	public static void main(String[] args) {
 		CloudData cd = new CloudData();
-//		cd.readData(args[0]);
-		cd.readData("largesample_input.txt");
-		//cd.printData();
+		cd.readData(args[0]);
+//		cd.readData("largesample_input.txt");
+		System.gc();
+		
+		long startTime = System.currentTimeMillis();
 		
 		ForkJoinPool pool = ForkJoinPool.commonPool();
 		Parallel_Manager pm = new Parallel_Manager(0, cd.dim()-1, cd);
@@ -17,9 +19,13 @@ public class Prac_3_parallel{
 		cd = pm.getCloudData();
 		
 		Vector v = cd.combineLocalAverages();
-		System.out.printf("Wind = (%.6f,%.6f)\n", v.x, v.y);
-//		cd.printClassification();
-//		cd.writeData(args[1], v);
-		cd.writeData("test.txt", v);
+		
+		long stopTime = System.currentTimeMillis();
+		Long elapsedTime = stopTime - startTime;
+	    double elapsedTimed = (elapsedTime.doubleValue())/1000;
+	    System.out.printf("elapsed time: %.5fs\n", elapsedTimed);
+	    
+	    cd.writeData(args[1], v);
+//		cd.writeData("output.txt", v);
 	}
 }

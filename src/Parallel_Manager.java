@@ -3,7 +3,7 @@ import java.util.concurrent.RecursiveTask;
 
 public class Parallel_Manager extends RecursiveTask<CloudData>{
 
-	private static final int THRESHOLD = 5000;
+	private static final int THRESHOLD = 50000;
 	private int start;
 	private int end;
 	private CloudData cd;

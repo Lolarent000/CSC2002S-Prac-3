@@ -8,3 +8,5 @@ simplesample_output.txt
 test.txt
 simplesample_input.txt
 largesample_output.txt
+bin/output.txt
+output.txt
