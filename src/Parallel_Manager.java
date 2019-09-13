@@ -8,6 +8,7 @@ public class Parallel_Manager extends RecursiveTask<CloudData>{
 	private int end;
 	private CloudData cd;
 	
+	//instantiation
 	public Parallel_Manager(int start, int end, CloudData cd) {
 		this.start = start;
 		this.end = end;
@@ -20,7 +21,7 @@ public class Parallel_Manager extends RecursiveTask<CloudData>{
 
 	@Override
 	protected CloudData compute() {
-		if (end - start > THRESHOLD) {
+		if (end - start > THRESHOLD) { //If range is larger than threshold, split range and spawn subtasks
 			int middle = start + (end - start - ((end - start - 1) % 2) - 1)/2;
 			
 			Parallel_Manager firstTask = new Parallel_Manager(start, middle, cd);
@@ -30,7 +31,7 @@ public class Parallel_Manager extends RecursiveTask<CloudData>{
 	        
 	        return firstTask.cd;
 		}
-		else {
+		else { // if range is less than threshold, do the calculation
 			cd.calculatePrevailingWind(start, end);
 			cd.classifyClouds(start, end);
 			return cd;

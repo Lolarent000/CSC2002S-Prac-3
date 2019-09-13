@@ -22,11 +22,13 @@ public class Vector {
 		endId = endIdIn;
 	}
 	
+	//calculates the length of the vector
 	public float len() {
 		double squares = (double) x*x + y*y;
 		return (float) Math.sqrt(squares);
 	}
 	
+	// returns x or y component
 	public float get(String i) {
 		if(i.equals("x")) {
 			return x;
@@ -39,6 +41,7 @@ public class Vector {
 		}
 	}
 	
+	// sets x or y component
 	public void set(String i, float val) {
 		if(i.equals("x")) {
 			x = val;

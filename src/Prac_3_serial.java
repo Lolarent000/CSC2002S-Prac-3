@@ -6,11 +6,14 @@ public class Prac_3_serial {
 		cd.readData(args[0]);
 		System.gc();
 		
+		// Start timer
 		long startTime = System.currentTimeMillis();
 		
+		// Start serial calculation
 		Vector v = cd.calculatePrevailingWind();
 		cd.classifyClouds();
 		
+		// Stop timer
 		long stopTime = System.currentTimeMillis();
 		Long elapsedTime = stopTime - startTime;
 		System.out.println(elapsedTime);

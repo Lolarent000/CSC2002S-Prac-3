@@ -8,11 +8,12 @@ public class Prac_3_parallel{
 	public static void main(String[] args) {
 		CloudData cd = new CloudData();
 		cd.readData(args[0]);
-//		cd.readData("largesample_input.txt");
 		System.gc();
 		
+		//Start timing
 		long startTime = System.currentTimeMillis();
 		
+		//Start parallel tasks
 		ForkJoinPool pool = ForkJoinPool.commonPool();
 		Parallel_Manager pm = new Parallel_Manager(0, cd.dim()-1, cd);
 		pool.invoke(pm);
@@ -20,12 +21,12 @@ public class Prac_3_parallel{
 		
 		Vector v = cd.combineLocalAverages();
 		
+		//Stop timing
 		long stopTime = System.currentTimeMillis();
 		Long elapsedTime = stopTime - startTime;
 	    double elapsedTimed = (elapsedTime.doubleValue())/1000;
 	    System.out.printf("elapsed time: %.5fs\n", elapsedTimed);
 	    
 	    cd.writeData(args[1], v);
-//		cd.writeData("output.txt", v);
 	}
 }
